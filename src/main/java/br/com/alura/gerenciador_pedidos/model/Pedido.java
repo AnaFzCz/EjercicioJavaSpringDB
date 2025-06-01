@@ -1,18 +1,19 @@
 package br.com.alura.gerenciador_pedidos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Pedido {
     @Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate data;
+    @ManyToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Producto> producto = new ArrayList<>();
 
     public Pedido() {
     }
@@ -36,6 +37,14 @@ public class Pedido {
 
     public void setData(LocalDate data) {
         this.data = data;
+    }
+
+    public List<Producto> getProducto() {
+        return producto;
+    }
+
+    public void setProducto(List<Producto> producto) {
+        this.producto = producto;
     }
 
     @Override
